@@ -33,5 +33,7 @@ files=(...)
 for i in ${files[@]}; do     echo "Predict on: $i"; python ./predict.py -d "$i" -m palo_ti -c config.ini -f model_registry/*.h5 ; done 
 
 ### Todos
+
 [ ] Update dependencies
+
 [ ] Check that batch predict works
