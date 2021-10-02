@@ -10,7 +10,7 @@ logger = logging.getLogger()
 parser = ap.ArgumentParser(description='Polus')
 
 parser.add_argument('-d', '--data', type=str, help='data file')
-parser.add_argument('-m', '--model', type=str, help='model (either [\'palo_text\',\'polus_te\',)')
+parser.add_argument('-m', '--model', type=str, help='model (either [\'polus_to\',\'polus_te\',)')
 parser.add_argument('-c', '--config', type=str, help='configuration file containing model parameters')
 parser.add_argument('-f', '--file', help='Model file to save when training or to load when testing')
 parser.add_argument('-i', '--infile', help='Model file to load when re-training')

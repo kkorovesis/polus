@@ -18,7 +18,7 @@ from sklearn.preprocessing import label_binarize
 from utilities.preprocessor import PreProcessor
 from utilities.embed_extractor import EmbeddingsExtractor
 from utilities.data_loader import get_embeddings, load_data, onehot_to_categories
-from models.models import polus_te
+from models.models import polus_te, polus_to
 
 
 class Classifier:
@@ -42,15 +42,15 @@ class Classifier:
 
     self.embeddings, self.word_indices = get_embeddings(corpus=self.corpus, dim=self.embedding_dim)
 
-    if self.model_name == 'palo_text':
-      self.model = palo_text(
+    if self.model_name == 'polus_to':
+      self.model = polus_to(
         self.embeddings, self.max_length, config)
     elif self.model_name == 'polus_te':
       self.model = polus_te(
         self.embeddings, self.max_length, config)
     else:
       raise NotImplementedError(
-        'Unrecognized model ' + self.model_name + '. It should be one of [\'palo_text\', \'polus_te\']')
+        'Unrecognized model ' + self.model_name + '. It should be one of [\'polus_to\', \'polus_te\']')
 
     self.pipeline = Pipeline([('preprocess', PreProcessor(TextPreProcessor(
       normalize=['url', 'email', 'percent', 'money', 'phone', 'user', 'time', 'url', 'date', 'number'],
@@ -83,7 +83,7 @@ class Classifier:
     trainTextX, trainEmojisX, trainY, valTextX, valEmojisX, testY, class_weights, encoder_mapping = data
     print("Train on size:{}".format(len(trainY)))
 
-    if self.model_name == 'palo_text':
+    if self.model_name == 'polus_to':
       trainX = [trainTextX]
       valX = [valTextX]
     elif self.model_name == 'polus_te':
@@ -130,7 +130,7 @@ class Classifier:
     trainTextX, trainEmojisX, trainY, valTextX, valEmojisX, testY, class_weights, encoder_mapping = data
     print("Re-Train on size:{}".format(len(trainY)))
 
-    if self.model_name == 'palo_text':
+    if self.model_name == 'polus_to':
       trainX = [trainTextX]
       valX = [valTextX]
     elif self.model_name == 'polus_te':
@@ -175,7 +175,7 @@ class Classifier:
     data = load_data(datafile, self.pipeline, dedup=True)
     TextX, EmojisX, y, encoder_mapping = data
 
-    if self.model_name == 'palo_text':
+    if self.model_name == 'polus_to':
       X = [TextX]
     elif self.model_name == 'polus_te':
       X = [TextX, EmojisX]
@@ -286,7 +286,7 @@ class Classifier:
       return [[]]
     TextX, EmojisX, sid, encoder_mapping = data
 
-    if self.model_name == 'palo_text':
+    if self.model_name == 'polus_to':
       X = [TextX]
     elif self.model_name == 'polus_te':
       X = [TextX, EmojisX]
