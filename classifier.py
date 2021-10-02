@@ -6,22 +6,19 @@ import tensorflow as tf
 import numpy as np
 import pandas as pd
 import configparser as cp
-
 from ekphrasis.classes.preprocessor import TextPreProcessor
 from ekphrasis.classes.tokenizer import SocialTokenizer
 from ekphrasis.dicts.emoticons import emoticons
 from tensorflow.keras.callbacks import ModelCheckpoint
 from tensorflow.keras.models import load_model
-
 from sklearn.metrics import confusion_matrix, precision_score, recall_score, accuracy_score, f1_score, roc_auc_score, \
   classification_report, average_precision_score
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import label_binarize
-
-from utilities.CustomPreProcessor import CustomPreProcessor
-from utilities.EmbeddingsExtractor import EmbeddingsExtractor
+from utilities.preprocessor import PreProcessor
+from utilities.embed_extractor import EmbeddingsExtractor
 from utilities.data_loader import get_embeddings, load_data, onehot_to_categories
-from models.models import palo_text, palo_ti
+from models.models import polus_te
 
 
 class Classifier:
@@ -48,14 +45,14 @@ class Classifier:
     if self.model_name == 'palo_text':
       self.model = palo_text(
         self.embeddings, self.max_length, config)
-    elif self.model_name == 'palo_ti':
-      self.model = palo_ti(
+    elif self.model_name == 'polus_te':
+      self.model = polus_te(
         self.embeddings, self.max_length, config)
     else:
       raise NotImplementedError(
-        'Unrecognized model ' + self.model_name + '. It should be one of [\'palo_text\', \'palo_ti\']')
+        'Unrecognized model ' + self.model_name + '. It should be one of [\'palo_text\', \'polus_te\']')
 
-    self.pipeline = Pipeline([('preprocess', CustomPreProcessor(TextPreProcessor(
+    self.pipeline = Pipeline([('preprocess', PreProcessor(TextPreProcessor(
       normalize=['url', 'email', 'percent', 'money', 'phone', 'user', 'time', 'url', 'date', 'number'],
       include_tags={'hashtag', 'allcaps', 'elongated', 'repeated', 'emphasis', 'censored'},
       fix_html=True,
@@ -89,7 +86,7 @@ class Classifier:
     if self.model_name == 'palo_text':
       trainX = [trainTextX]
       valX = [valTextX]
-    elif self.model_name == 'palo_ti':
+    elif self.model_name == 'polus_te':
       trainX = [trainTextX, trainEmojisX]
       valX = [valTextX, valEmojisX]
     else:
@@ -136,7 +133,7 @@ class Classifier:
     if self.model_name == 'palo_text':
       trainX = [trainTextX]
       valX = [valTextX]
-    elif self.model_name == 'palo_ti':
+    elif self.model_name == 'polus_te':
       trainX = [trainTextX, trainEmojisX]
       valX = [valTextX, valEmojisX]
     else:
@@ -180,7 +177,7 @@ class Classifier:
 
     if self.model_name == 'palo_text':
       X = [TextX]
-    elif self.model_name == 'palo_ti':
+    elif self.model_name == 'polus_te':
       X = [TextX, EmojisX]
     else:
       X = None
@@ -291,7 +288,7 @@ class Classifier:
 
     if self.model_name == 'palo_text':
       X = [TextX]
-    elif self.model_name == 'palo_ti':
+    elif self.model_name == 'polus_te':
       X = [TextX, EmojisX]
     else:
       X = None

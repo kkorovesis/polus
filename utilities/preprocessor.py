@@ -1,13 +1,12 @@
 import os
 import pickle
-
 import numpy
 from cachetools import cached
 from sklearn.base import BaseEstimator, TransformerMixin
 from tqdm import tqdm
 
 
-class CustomPreProcessor(BaseEstimator, TransformerMixin):
+class PreProcessor(BaseEstimator, TransformerMixin):
     def __init__(self, pp, to_list=False):
         self.pp = pp
         self.to_list = to_list
@@ -38,5 +37,5 @@ class CustomPreProcessor(BaseEstimator, TransformerMixin):
             processed = self.pre_process_steps(X)
             return processed
 
-    def fit(self, X, y=None):
-        return self
+    # def fit(self, X, y=None):
+    #     return self

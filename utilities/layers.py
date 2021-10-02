@@ -1,4 +1,3 @@
-
 from tensorflow.keras.layers import Layer, Dense, Activation
 from tensorflow.keras.layers import Lambda
 from tensorflow.keras.layers import dot, concatenate

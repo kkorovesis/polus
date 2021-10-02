@@ -6,13 +6,10 @@ import emoji
 import pandas as pd
 import numpy as np
 from collections import Counter
-
 from tensorflow.keras.utils import to_categorical
-
 from sklearn.preprocessing import LabelEncoder
 from sklearn.preprocessing import MultiLabelBinarizer
 from sklearn.model_selection import train_test_split
-
 from embeddings.WordVectorsManager import WordVectorsManager
 
 

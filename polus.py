@@ -10,7 +10,7 @@ logger = logging.getLogger()
 parser = ap.ArgumentParser(description='Polus')
 
 parser.add_argument('-d', '--data', type=str, help='data file')
-parser.add_argument('-m', '--model', type=str, help='model (either [\'palo_text\',\'palo_ti\',)')
+parser.add_argument('-m', '--model', type=str, help='model (either [\'palo_text\',\'polus_te\',)')
 parser.add_argument('-c', '--config', type=str, help='configuration file containing model parameters')
 parser.add_argument('-f', '--file', help='Model file to save when training or to load when testing')
 parser.add_argument('-i', '--infile', help='Model file to load when re-training')
@@ -67,7 +67,7 @@ elif args.mode == 'test':
   labels, cm, cr, acc, f1_macro, f1_micro, f1_weighted, roc_auc, auprc, macro_precision, micro_precision, weighted_precision, macro_recall, micro_recall, weighted_recall = c.test(
     args.data, args.file)
 
-  with open(f'{args.file.replace("model_dump/", "")}_{datetime.datetime.now().strftime("%Y%m%dT%H%M%S")}_scores.txt',
+  with open(f'{args.file.replace("model_registry/", "")}_{datetime.datetime.now().strftime("%Y%m%dT%H%M%S")}_scores.txt',
             'w') as f:
     f.write('ROC AUC: {0:0.2f}%\n'.format(100 * roc_auc))
     f.write('AUPRC: {0:0.2f}%\n'.format(100 * auprc))

@@ -20,7 +20,7 @@ mv embeddings/cc.el.300.vec embeddings/fasttext.300d.txt
 
 ### Train
 ```bash
-python experiment.py -d <train_data_filename> -m palo -c ./config.ini -f <train_data_filename> train --epochs <num_epochs> --batch <batch_size>
+python polus.py -d <train_data_filename> -m palo_te -c ./config.ini -f <train_data_filename> train --epochs <num_epochs> --batch <batch_size>
 ```
 
 ### Predict
@@ -28,10 +28,8 @@ python experiment.py -d <train_data_filename> -m palo -c ./config.ini -f <train_
 python ./predict.py -d <tmp_file> -m palo -c config -f <latest_model> 
 ```
 
-### Batch Predict (on next version)
-files=(...)
-for i in ${files[@]}; do     echo "Predict on: $i"; python ./predict.py -d "$i" -m palo_ti -c config.ini -f model_registry/*.h5 ; done 
+s3://com.palo.ml-dev/polus/tree/banks/eurobank/data/TRAIN_ba4a4a87-f9e1-4e43-b7ef-0e8f3bad87af.json.gz
+
 
 ### Todos
 [ ] Update dependencies
-[ ] Check that batch predict works

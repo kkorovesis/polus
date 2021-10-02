@@ -4,7 +4,7 @@ import pickle
 
 import numpy
 
-from utilities.ResourceManager import ResourceManager
+from utilities.resource_manager import ResourceManager
 
 
 class WordVectorsManager(ResourceManager):
