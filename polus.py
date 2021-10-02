@@ -35,6 +35,8 @@ predict = subparsers.add_parser('predict', help='Predict sentiment')
 
 # Parse input arguments
 args = parser.parse_args()
+args.file = 'model_registry/' + args.file
+
 print('*' * 88)
 print(f"All args: {args}")
 print('*' * 88)
@@ -42,19 +44,6 @@ print(f"Mode: {args.mode}")
 
 logger.warning("For data deduplication use arg: -ddp")
 logger.warning("If mode == 'test' then ddp is TRUE")
-
-try:
-  if not (
-    (args.file and os.path.exists(os.path.abspath(args.file.rsplit('/', 1)[0]).replace("~", "")))
-  ):
-    print("Path does not exist \n {0} \n {1}".format(
-      os.path.abspath(args.file.rsplit('/', 1)[0]).replace("~", "")
-    ))
-    sys.exit()
-except AttributeError:
-  pass
-except IndexError:
-  "Wrong file path"
 
 if args.mode == 'train':
   c = Classifier(model_name=args.model, config_file=args.config, epochs=args.epochs, batch_size=args.batch)
