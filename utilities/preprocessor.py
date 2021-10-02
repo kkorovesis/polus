@@ -37,5 +37,5 @@ class PreProcessor(BaseEstimator, TransformerMixin):
             processed = self.pre_process_steps(X)
             return processed
 
-    # def fit(self, X, y=None):
-    #     return self
+    def fit(self, X, y=None):
+        return self
