@@ -45,7 +45,7 @@ logger.warning("If mode == 'test' then ddp is TRUE")
 
 try:
   if not (
-      (args.file and os.path.exists(os.path.abspath(args.file.rsplit('/', 1)[0]).replace("~", "")))
+    (args.file and os.path.exists(os.path.abspath(args.file.rsplit('/', 1)[0]).replace("~", "")))
   ):
     print("Path does not exist \n {0} \n {1}".format(
       os.path.abspath(args.file.rsplit('/', 1)[0]).replace("~", "")
@@ -53,6 +53,8 @@ try:
     sys.exit()
 except AttributeError:
   pass
+except IndexError:
+  "Wrong file path"
 
 if args.mode == 'train':
   c = Classifier(model_name=args.model, config_file=args.config, epochs=args.epochs, batch_size=args.batch)
@@ -64,11 +66,13 @@ elif args.mode == 'retrain':
 
 elif args.mode == 'test':
   c = Classifier(model_name=args.model, config_file=args.config)
-  labels, cm, cr, acc, f1_macro, f1_micro, f1_weighted, roc_auc, auprc, macro_precision, micro_precision, weighted_precision, macro_recall, micro_recall, weighted_recall = c.test(
+  labels, cm, cr, acc, f1_macro, f1_micro, f1_weighted, roc_auc, auprc, macro_precision, micro_precision, \
+  weighted_precision, macro_recall, micro_recall, weighted_recall = c.test(
     args.data, args.file)
 
-  with open(f'{args.file.replace("model_registry/", "")}_{datetime.datetime.now().strftime("%Y%m%dT%H%M%S")}_scores.txt',
-            'w') as f:
+  with open(
+    f'{args.file.replace("model_registry/", "")}_{datetime.datetime.now().strftime("%Y%m%dT%H%M%S")}_scores.txt', 'w'
+  ) as f:
     f.write('ROC AUC: {0:0.2f}%\n'.format(100 * roc_auc))
     f.write('AUPRC: {0:0.2f}%\n'.format(100 * auprc))
     f.write('Accuracy: {0:0.2f}%\n'.format(100 * acc))
@@ -87,6 +91,5 @@ elif args.mode == 'predict':
   res = c.predict(args.data, args.file)
   if res:
     print('... done!')
-
 else:
   parser.print_usage()

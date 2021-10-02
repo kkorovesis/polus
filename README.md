@@ -28,8 +28,6 @@ python polus.py -d <train_data_filename> -m palo_te -c ./config.ini -f <train_da
 python ./predict.py -d <tmp_file> -m palo -c config -f <latest_model> 
 ```
 
-s3://com.palo.ml-dev/polus/tree/banks/eurobank/data/TRAIN_ba4a4a87-f9e1-4e43-b7ef-0e8f3bad87af.json.gz
-
 ### Todos
 
 [ ] Update dependencies
